@@ -1,0 +1,38 @@
+{
+  "outFile" : "out.tga",
+  "images": [
+    {
+      "fileName": "car1.bmp",
+      "appendBitmap" : true,
+      "paletteInfo": [
+        {
+          "srcStart": 0,
+          "srcEnd": 15,
+          "dstStart": 0
+        }
+      ]
+    },
+    {
+      "fileName": "car2.bmp",
+      "appendBitmap" : true,
+      "paletteInfo": [
+        {
+          "srcStart": 0,
+          "srcEnd": 15,
+          "dstStart": 0
+        }
+      ]
+    },
+    {
+      "fileName": "car3.bmp",
+      "appendBitmap" : true,
+      "paletteInfo": [
+        {
+          "srcStart": 0,
+          "srcEnd": 15,
+          "dstStart": 0
+        }
+      ]
+    }
+  ]
+}

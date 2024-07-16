@@ -1,0 +1,36 @@
+    xref sintab_256
+    xdef _twister_fill_copperlist_a
+
+    ; input:
+    ; a0 - copperlist ptr
+    ; a1 - y_dy
+    ; a2 - y_dsy
+    ; a3 - x_dy
+    ; a4 - mod0
+    ; d4 - y_y
+    ; d5 - y_sy
+    ; d6 - x_dy
+    ; d7 - height-1
+    ; output
+    ; a0 - copperlist ptr
+_twister_fill_copperlist_a:
+    cmp.w   #-1,d7
+    beq     .skip
+    lea     sintab_256,a5
+    
+.y_loop:
+    ; y = ((y_y >> 8) + (sintab_256[(y_sy >> 8) & 255]>>1))&255;
+    move.w  d3,d4           ; d3 = (y_y)
+    lsr.w   #8,d3           ; d3 = (y_y>>8)
+    move.w  d2,d5           ; d2 = (y_sy)
+    lsr.w   #8,d2           ; d2 = (y_sy >> 8)
+    move.w  (a5,d2.w),d2    ; d2 = sintab_256[(y_sy>>8)&255]
+    lsr.w   #1,d2           ; d2 = sintab_256[(y_sy>>8)&255]>>1
+    add.w   d2,d3           ; d3
+
+
+
+    dbra    d7,.y_loop
+
+.skip:
+    rts

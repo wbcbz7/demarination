@@ -1,0 +1,160 @@
+#include "../support/gcc8_c_support.h"
+#include <proto/exec.h>
+#include <proto/dos.h>
+#include <proto/graphics.h>
+#include <graphics/gfxbase.h>
+#include <graphics/view.h>
+#include <exec/execbase.h>
+#include <graphics/gfxmacros.h>
+#include <hardware/custom.h>
+#include <hardware/dmabits.h>
+#include <hardware/intbits.h>
+
+// includes
+#include "../main.h"
+#include "../copper.h"
+#include "../resources.h"
+#include "../tables.h"
+#include "../palerp.h"
+#include "../drawtext.h"
+#include "text_test.h"
+
+#define X_RES               320
+#define X_RES_WORD          (X_RES/16)
+#define X_RES_BYTE          (X_RES/8)
+
+#define X_PITCH             320
+#define X_PITCH_WORD        (X_PITCH/16)
+#define X_PITCH_BYTE        (X_PITCH/8)
+
+#define BPL_COUNT           1
+#define Y_RES               256
+#define Y_PITCH             256
+#define BPL_SIZE            (X_PITCH_BYTE*Y_PITCH)
+#define BPLSCREEN_SIZE      (BPL_SIZE*BPL_COUNT)
+
+// -------------------------
+// resources
+
+// font
+INCBIN_CHIP(font_main_gfx, "gfx/font_main.gfx.bpl")
+
+// font descriptor
+INCBIN(font_main_desc, "gfx/font_main.desc.bin")
+
+// font offset table
+INCBIN(font_main_ofs, "gfx/font_main.ofs.bin")
+
+struct font_info_t fontinfo = {
+    &incbin_font_main_gfx_start,
+    (struct font_descriptor_t*)&incbin_font_main_desc_start,
+    (USHORT*)&incbin_font_main_ofs_start,
+    32, 2, 1, -2
+};
+
+// copperlist
+static USHORT* copper_main;
+
+// bitplane pool
+static USHORT* bplbase;
+
+int fonttest_init() {
+    // allocate copperlist memory
+    copper_main = (USHORT*)AllocMem(256,  MEMF_CHIP);
+
+    // init bpl pointers
+    bplbase = bpl_pool;
+
+    // fill copperlist
+    USHORT *copPtr = copper_main;
+
+    // init data fetch/display window
+    copPtr = setLowres320Wide(copPtr, Y_RES);
+    // enable bitplanes    
+    *copPtr++ = offsetof(struct Custom, bplcon0);
+    *copPtr++ = (1<<10)/*dual pf*/|(1<<9)/*color*/|(BPL_COUNT<<12)/*num bitplanes*/;
+    *copPtr++ = offsetof(struct Custom, bplcon1);    //scrolling
+    *copPtr++ = 0;
+    *copPtr++ = offsetof(struct Custom, bplcon2);    //playfied priority
+    *copPtr++ = 0<<6;
+
+    //set bitplane modulo
+	*copPtr++=offsetof(struct Custom, bpl1mod); //odd planes   1,3,5
+	*copPtr++=(USHORT)(BPL_COUNT*X_PITCH_BYTE - X_RES_BYTE);
+	*copPtr++=offsetof(struct Custom, bpl2mod); //even  planes 2,4
+	*copPtr++=(USHORT)(BPL_COUNT*X_PITCH_BYTE - X_RES_BYTE);
+
+    // set bitplane pointers
+    COPPERLIST_ADD_MOVE_LONG(copPtr, bplpt[0], bplbase);
+    COPPERLIST_ADD_MOVE_LONG(copPtr, bplpt[1], bplbase + X_PITCH);
+
+    // set colors
+    COPPERLIST_ADD_MOVE(copPtr, color[0], 0x000);
+    COPPERLIST_ADD_MOVE(copPtr, color[1], 0xF0F);
+    COPPERLIST_ADD_MOVE(copPtr, color[2], 0x444);
+    COPPERLIST_ADD_MOVE(copPtr, color[3], 0xFFF);
+
+    // terminate copperlist
+    *copPtr++ = 0xffff;
+    *copPtr++ = 0xfffe;
+
+    text_init(A_OR_C);
+    text_build_pitch_lookup(X_PITCH_BYTE);
+
+    return 0;
+}
+
+// free memory
+int fonttest_free() {
+    FreeMem(copper_main, 256);
+    return 0;
+}
+
+// the main show!
+int fonttest_run() {
+    // remove stray VBL handlers
+    part_vbl = NULL;
+    part_cop = NULL;
+    part_blt = NULL;
+
+    // disable screen
+    WaitVbl();
+    // disable screen
+    custom->bplcon0 = 0;
+
+    // enable blitter dma if is not enabled already
+    custom->dmacon  = DMAF_SETCLR | DMAF_MASTER | DMAF_BLITTER;
+
+    // start copper
+    custom->dmacon = DMAF_COPPER;   // stop copper
+    custom->cop1lc = (ULONG)copper_main;
+    custom->dmacon = DMAF_BLITTER | DMAF_RASTER; //disable blitter dma for copjmp bug
+    //custom->copjmp1 = 0x7fff; //start coppper
+    custom->dmacon = DMAF_SETCLR | DMAF_MASTER | DMAF_RASTER | DMAF_COPPER | DMAF_BLITTER;
+
+    // clear buffer
+    WaitBlit();
+    custom->bltcon0 = A_TO_D | DEST;
+    custom->bltcon1 = 0;
+    custom->bltadat = 0;
+    custom->bltamod = 0;
+    custom->bltdpt  = (APTR)bplbase;
+    custom->bltdmod = 0;
+    custom->bltafwm = custom->bltalwm = 0xffff;
+    custom->bltsize = ((Y_PITCH * BPL_COUNT * 1) << HSIZEBITS) | (X_PITCH_WORD);
+
+    while ((isRunning)) {
+        // vbl
+        volatile short fc = frameCounter;
+        while (fc == frameCounter);
+
+        text_draw(bplbase, &fontinfo, "abcdefghijklmnopqrstuvwxyz 1234", 0, Y_RES/2);
+    }
+
+    // cleanup
+    part_vbl = NULL;
+    part_cop = NULL;
+    part_blt = NULL;
+
+    return isRunning;
+}

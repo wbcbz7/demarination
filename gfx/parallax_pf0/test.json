@@ -1,0 +1,38 @@
+{
+  "outFile" : "out.tga",
+  "images": [
+    {
+      "fileName": "ewerk.bmp",
+      "appendBitmap" : true,
+      "paletteInfo": [
+        {
+          "srcStart": 0,
+          "srcEnd": 15,
+          "dstStart": 0
+        }
+      ]
+    },
+    {
+      "fileName": "road.bmp",
+      "appendBitmap" : true,
+      "paletteInfo": [
+        {
+          "srcStart": 0,
+          "srcEnd": 15,
+          "dstStart": 16
+        }
+      ]
+    },
+    {
+      "fileName": "salut.bmp",
+      "appendBitmap" : true,
+      "paletteInfo": [
+        {
+          "srcStart": 0,
+          "srcEnd": 15,
+          "dstStart": 32
+        }
+      ]
+    }
+  ]
+}

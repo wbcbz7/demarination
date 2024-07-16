@@ -1,0 +1,66 @@
+
+                   ..                   ..
+                   .. ..             .. ..
+                   .. .. ..       .. .. ..
+                   .. .. .. .. .. .. .. .. 
+                   .. .. .. .. .. .. .. .. 
+                   .. .. .. .. .. .. .. .. 
+                   .. .. .. .. .. .. .. .. 
+                      .. .. .. .. .. .. 
+ 
+  . .. ... ..demarination - an invitation to the. ... .. .
+  . .. ... ..[ M U L T I M A T O G R A F 2024 ].. ... .. .
+  . .. ... .......... 29 - 30 april 2024 ........ ... .. .
+  . ..released at Revision 2024 Amiga 64kb intro compo.. .
+
+ ...... welcome to the Multimatograf 2024 party! ........
+ finally, after 6 years of hiatus, we are back with a brand
+ new portion of true oldskool demoparty!
+   - brand new partyplace in Vologda, Russia
+   - wide range of platforms - from ZX/BK to newskool
+   - 15 awesome compos (including realtime)
+   - seminars, lectures, exhibitions and live stream
+   - remote entries welcome!
+
+ join us at https://events.retroscene.org/mf2024 !
+
+ :: credits
+  . ...code/design/rmx       - artёmka (aka wbcbz7)
+  . ...graphics              - grongy
+  . ...original speccy music - sauron/digital reality
+  . ...support/testing       - nyuk and fatalsnipe
+
+  and as usual, powered by vscode-amiga-debug by abyss
+
+ :: requirements and notes
+  - min. OCS chipset, 512kb chip + 512kb any
+  - AGA or accelerated may need boot w/o startup sequence
+    or disabling the accelerator
+  - tested on A500, A600 and A1200/060
+  - LMB to exit the intro at any time
+  - try to find a hidden game!
+
+ :: thanks
+  platon42   - for sprite/copper tips
+  grongy     - you are a f#$@ng monster! never have thought
+               you can do such a wonderful gfx for amiga!
+  fatalsnipe - for saving nerves by testing on real hw
+  sauron/DR  - for giving a permission for using his music
+  bfox       - for organizing the Revision satellite
+
+ :: greets
+ marquee design - smfx - joker - desire - darklite - oxygene
+  spreadpoint - darkage - ngc - logicoma - nah-kolor - flex
+   andromeda - attentionwhore - spectrox - alcatraz - abyss
+  tek - lemon - melon - artstate - insane - pacific - arise
+  disaster area - inercia - slipstream - ghostown - haujobb
+
+    demarche - stardust - caroline - 7dump - sands - v-nom
+   excess team - fishbone - fenomen - mayhem - shiru - rmda
+ f0x - enhancers - nihirashi - jin_x - outsiders - serzhsoft
+ and the whole t.me/amigaru posse
+
+  ... and you! :)
+  
+ ...
+ .27.o3.2o24
