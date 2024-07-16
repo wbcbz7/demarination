@@ -1,0 +1,26 @@
+{
+    "[m68k]": {
+        "editor.rulers": []
+    },
+    "m68k.includePaths": [
+        "d:\\SRC\\!old\\VSCode_win32-x64-1.81.0\\data\\extensions\\bartmanabyss.amiga-debug-1.7.7\\bin\\win32\\opt\\m68k-amiga-elf\\sys-include"
+    ],
+    "m68k.vasm.provideDiagnostics": false,
+    "files.associations": {
+        "copperchunky.h": "c",
+        "copper.h": "c",
+        "linedraw.h": "c",
+        "vecanim.h": "c",
+        "vecdrop.h": "c",
+        "vec.h": "c",
+        "intbits.h": "c",
+        "gfxmacros.h": "c",
+        "graphics.h": "c",
+        "spritegen.h": "c",
+        "text_test.h": "c",
+        "main.h": "c",
+        "gcc8_c_support.h": "c",
+        "linewobble.h": "c",
+        "drawtext.h": "c"
+    }
+}
