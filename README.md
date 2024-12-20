@@ -6,7 +6,7 @@ i'm not an amiga guru yet, but this one could be useful as an example if you wan
 
 ## building instructions
 
-get Visual Studio Code + [vscode-amiga-debug](https://github.com/BartmanAbyss/vscode-amiga-debug), set it up for Amiga 500 config (make sure to locate a Kickstart 1.3 ROM!), switch to project directory and press F5 to compile and run :)
+get Visual Studio Code + [vscode-amiga-debug](https://github.com/BartmanAbyss/vscode-amiga-debug), set it up for Amiga 500 config (make sure to locate a Kickstart 1.3 ROM! (in VSCode > Preferences > Settings > Amiga C/C++ Compile,Debug > amiga.rom-paths.A500)), switch to project directory and press F5 to compile and run :)
 
 if you want to build an ADF image, head to `out` folder, fixup tool paths in `make_release.bat` and run it.
 
